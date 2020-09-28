@@ -1,0 +1,12 @@
+  .paginator{
+    margin: 15px;
+  }
+  .selectedPage{
+    font-weight: bold;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.686);
+  }
+  .pageNamber{
+    padding: 5px;
+    margin: 5px;
+  }

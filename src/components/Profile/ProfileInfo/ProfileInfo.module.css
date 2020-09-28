@@ -1,0 +1,20 @@
+.descriptionBlock {
+    padding: 10px;
+}
+.descriptionimg{
+    height: 300px;
+    width: 100%;
+}
+.mainPhoto{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+.contacts{
+    color: rgb(0, 41, 41);
+    margin-left: 20px;
+}
+.separator{
+    border-top: 1px solid rgba(0, 19, 80, 0.555);
+    padding-top: 20px;
+}
