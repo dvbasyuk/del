@@ -1,12 +1,14 @@
+import { DialogType, MessagesType } from "../types/types";
+
 const SEND_MESSAGE = 'SEND_MESSAGE';
-type DialogType = {
-    id: number
-    name: string
-}
-type MessagesType = {
-    id: number
-    message: string
-}
+// type DialogType = {
+//     id: number
+//     name: string
+// }
+// type MessagesType = {
+//     id: number
+//     message: string
+// }
 let initialState = {
     dialogs: [
         { id: 1, name: 'Darya' },
@@ -36,6 +38,6 @@ type SendMessageActionType = {
     type: typeof SEND_MESSAGE
     newMessageBody: string
 }
-export const sendMessageCreator = (newMessageBody: string):SendMessageActionType => ({ type: SEND_MESSAGE, newMessageBody })
+export const sendMessage = (newMessageBody: string):SendMessageActionType => ({ type: SEND_MESSAGE, newMessageBody })
 
 export default dialogsReducer;
