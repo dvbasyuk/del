@@ -9,18 +9,21 @@ import { reducer as formReducer } from 'redux-form'
 import appReducer from "./app-reducer";
 
 let reducers = combineReducers({
-    profilePage: profileReducer,
-    dialogsPage: dialogsReducer,
-    sidebar: sidebarReducer,
-    usersPage: usersReducer,
-    auth: authReducer,
-    app: appReducer,
-    form: formReducer
-});
+  profilePage: profileReducer,
+  dialogsPage: dialogsReducer,
+  sidebar: sidebarReducer,
+  usersPage: usersReducer,
+  auth: authReducer,
+  app: appReducer,
+  form: formReducer
+})
+type ReducersType = typeof reducers // (globalState: AppStateType) => AppStatType
+export type AppStateType = ReturnType<ReducersType>
+
+//@ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)
-  ));
+));
 // let store = createStore(reducers, applyMiddleware(thunk));
-
 // window.state = store
 export default store;
