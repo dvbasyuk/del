@@ -50,11 +50,6 @@ export const setAuthUserData = (id: number | null, email: string | null, login: 
     type: SET_USER_DATA,
     payload: { id, email, login, isAuth }
 })
-
-type GetCaptchaUrlSuccessActionType = {
-    type: typeof GET_CAPTCHA_URL_SUCCESS,
-    payload: { captchUrl: string  }
-}
 export const getCaptchaUrlSuccess = (captchUrl: string): GetCaptchaUrlSuccessActionType => ({
     type: GET_CAPTCHA_URL_SUCCESS,
     payload: { captchUrl}
