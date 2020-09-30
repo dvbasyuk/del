@@ -17,7 +17,7 @@ let initialState = {
     status: ""
 };
 export type InitialStateType = typeof initialState
-const profileReducer = (state = initialState, action: any): InitialStateType => {
+const profileReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 
     switch (action.type) {
         case ADD_POST:
@@ -67,6 +67,7 @@ type SavePhotoSuccessActionType = {
     type: typeof SAVE_PHOTO_SUCCESS
     file: PhotosType
 }
+type ActionsTypes=AddPostActionType | SetUserProfileActionType | SetStatusActionType | SavePhotoSuccessActionType
 export const addPostActionCreator = (newPostText:string):AddPostActionType => ({ type: ADD_POST, newPostText })
 export const setUserProfile = (profile:ProfileType):SetUserProfileActionType => ({ type: SET_USER_PROFILE, profile })
 export const setStatus = (status:string):SetStatusActionType => ({ type: SET_STATUS, status })

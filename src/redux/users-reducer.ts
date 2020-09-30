@@ -111,8 +111,8 @@ export const setFollowingInProgress = (isFatching: boolean, userId: number): Set
 
 type GetStateType = () => AppStateType
 type DispatchType = Dispatch<ActionsTypes>
-type ThunkType = ThunkAction<Promise<void>,AppStateType,unknown,ActionsTypes>
-type FunctionACType = (userId:number)=>FollowSuccessActionType| UnfollowSuccessActionType
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+type FunctionACType = (userId: number) => FollowSuccessActionType | UnfollowSuccessActionType
 //ThunkCreators
 export const requestUsers = (page: number, pageSize: number) => async (dispatch: DispatchType, getState: GetStateType) => {
     dispatch(setToggleIsFetching(true))
@@ -132,7 +132,7 @@ export const unfollow = (userId: number): ThunkAction<Promise<void>, AppStateTyp
 }
 
 //function
-const _followUnfollowFlow = async (dispatch: DispatchType, userId: number, apiMethod: any, actionCreator:FunctionACType) => {
+const _followUnfollowFlow = async (dispatch: DispatchType, userId: number, apiMethod: any, actionCreator: FunctionACType) => {
 
     dispatch(setFollowingInProgress(true, userId))
     let resultCode = await apiMethod(userId)
