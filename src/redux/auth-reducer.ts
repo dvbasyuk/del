@@ -1,5 +1,6 @@
+import { ResultCodeForCaptcha } from './../api/api';
 import { stopSubmit } from 'redux-form';
-import { authAPI, securityAPI } from "../api/api";
+import { authAPI, ResultCodeEnum, securityAPI } from "../api/api";
 
 const SET_USER_DATA = 'react/auth/SET_USER_DATA';
 const GET_CAPTCHA_URL_SUCCESS = 'react/auth/GET_CAPTCHA_URL_SUCCESS';
@@ -55,19 +56,18 @@ export const getCaptchaUrlSuccess = (captchUrl: string): GetCaptchaUrlSuccessAct
 //ThunkCreator
 export const authMe = () => async (dispatch: any) => {
     let data = await authAPI.getAuth()
-    if (data.resultCode === 0) {
+    if (data.resultCode === ResultCodeEnum.Success) {
         dispatch(setAuthUserData(data.data.id, data.data.email, data.data.login, true))
     }
 
 }
 export const login = (login: string, password: string, rememberMe: boolean, captcha: string) => async (dispatch: any) => {
     let data = await authAPI.login(login, password, rememberMe, captcha)
-    if (data.resultCode === 0) {
+    if (data.resultCode === ResultCodeEnum.Success) {
         dispatch(authMe())
     } else {
-        if (data.resultCode === 10) {
+        if (data.resultCode === ResultCodeForCaptcha.CaptchaIsRequired) {
             dispatch(getCaptcha())
-
         }
         let message = (data.messages.length > 0 ? data.messages[0] : "Some error")
         dispatch(stopSubmit("login", { _error: message }))
