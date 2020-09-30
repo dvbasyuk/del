@@ -8,35 +8,48 @@ import { requiredField } from '../../utils/validators/validators';
 import { createField, Input } from '../common/FormsControls/FormsControl';
 import s from '../common/FormsControls/FormsControl.module.css'
 
-type PropsType = {
+type MapStatePropsType = {
     isAuth: boolean
     captchUrl: string | null
-    login: (login: string | null, password: string | null, rememberMe: boolean | null, captcha: string | null) => void
 }
+type MapDispatchPropsType = {
+    login: (login: string, password: string, rememberMe: boolean, captcha: string) => void
+}
+type PropsType = MapStatePropsType & MapDispatchPropsType
+
+type LoginFormValuesType = {
+    login: string
+    password: string
+    rememberMe: boolean
+    captcha: string
+}
+type LoginFormOwnProps={
+    captchUrl: string | null
+}
+type LoginFormValuesTypeKeys=Extract <keyof LoginFormValuesType, string>
 
 const Login: React.FC<PropsType> = (props) => {
-    const onSubmit = (formData: any) => {
+    const onSubmit = (formData: LoginFormValuesType) => {
         props.login(formData.login, formData.password, formData.rememberMe, formData.captcha)
     }
     if (props.isAuth) return <Redirect to={"/profile"} />
     return (
         <div>
             <h1>login</h1>
-            {/* <LoginReduxForm onSubmit={onSubmit} captchUrl={props.captchUrl} /> */}
-            <LoginReduxForm onSubmit={onSubmit} />
+            <LoginReduxForm onSubmit={onSubmit} captchUrl={props.captchUrl} />
         </div>
     )
 }
-//@ts-ignore
-const LoginForm: React.FC<InjectedFormProps> = (props) => {
+
+const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnProps> & LoginFormOwnProps> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
-            { createField("Login", Input, "login", [requiredField])}
-            { createField("Password", Input, "password", [requiredField], { type: "password" })}
-            { createField(null, Input, "rememberMe", [], { type: "checkbox" }, "remember me")}
-            
-            {/* {props.captchUrl && <img src={props.captchUrl} />}
-            {props.captchUrl && createField("Symbols from image", Input, "captcha", [requiredField])} */}
+            { createField<LoginFormValuesTypeKeys>("Login", Input, "login", [requiredField], {})}
+            { createField<LoginFormValuesTypeKeys>("Password", Input, "password", [requiredField], { type: "password" })}
+            { createField<LoginFormValuesTypeKeys>(undefined, Input, "rememberMe", [], { type: "checkbox" }, "remember me")}
+
+            {props.captchUrl && <img src={props.captchUrl} />}
+            {props.captchUrl && createField<LoginFormValuesTypeKeys>("Symbols from image", Input, "captcha", [requiredField],{})}
 
             {props.error &&
                 <div className={s.forSummaryError}>
@@ -48,14 +61,14 @@ const LoginForm: React.FC<InjectedFormProps> = (props) => {
         </form>
     )
 }
-const LoginReduxForm = reduxForm({
+const LoginReduxForm = reduxForm<LoginFormValuesType,LoginFormOwnProps>({
     form: 'login'
 })(LoginForm)
 
-const mapStateToProps = (state:AppStateType) => ({
+const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
     isAuth: state.auth.isAuth,
     captchUrl: state.auth.captchUrl
 })
-//@ts-ignore
+
 export default connect(mapStateToProps, { login })(Login)
 
