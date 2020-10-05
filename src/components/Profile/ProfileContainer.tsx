@@ -13,12 +13,13 @@ type MapStatePropsType = {
     authorisedUserId: number | null
     isAuth: boolean
 }
+
 type MapDispatchPropsType = {
     userInfo:(userId:number)=>void
     getStatus:(userId:number)=>void
     updateStatus:()=>void
     savePhoto:()=>void
-    saveProfile:()=>void
+    saveProfile:(profile:ProfileType)=>void
 }
 type OwnPropsType = {
    

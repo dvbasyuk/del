@@ -4,19 +4,35 @@ import Preloader from '../../common/Preloader/Preloader';
 import ProfileStatusWithHook from './ProfileStatusWithHook';
 import userPhoto from '../../../imges/photo.jpg'
 import ProfileDataForm from './ProfileDataForm';
+import { ContactsType, PhotosType, ProfileType } from '../../../types/types';
 
-const ProfileInfo = (props) => {
+type PropsType = {
+    profile: ProfileType | null
+    isOwner: boolean
+    status: string
+    savePhoto: () => void
+    saveProfile: (profile:ProfileType) => void
+    updateStatus: (file: PhotosType) => void
+}
+type ProfileFormValue = {
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    contacts: ContactsType
+    photos: PhotosType
+}
+const ProfileInfo: React.FC<PropsType> = (props) => {
 
     let [editMode, setEditMode] = useState(false)
 
     if (!props.profile) {
         return <Preloader />
     }
-    const mainPhotoSelectedOn = (e) => {
+    const mainPhotoSelectedOn = (e: React.ChangeEvent<HTMLInputElement> | null) => {
         if (e.target.files.length)
             props.savePhoto(e.target.files[0])
     }
-    const onSubmit = (formData) => {
+    const onSubmit = (formData:ProfileType) => {
         // setEditMode(false)
         props.saveProfile(formData).then(
             () => {
@@ -33,12 +49,10 @@ const ProfileInfo = (props) => {
             <div className={s.separator}>
                 {editMode
                     ? <ProfileDataForm initialValues={props.profile} onSubmit={onSubmit} profile={props.profile} />
-                    : <ProfileData profile={props.profile} isOwner={props.isOwner} goToEditMode={() => { setEditMode(true) }} />}
-
+                    : <ProfileData profile={props.profile} isOwner={props.isOwner} goToEditMode={() => { setEditMode(true) }} />
+                }
             </div>
-
         </div>
-
     )
 }
 
